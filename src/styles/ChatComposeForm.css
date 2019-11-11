@@ -1,0 +1,12 @@
+.chat-compose-form {
+	height: 200px;
+	border: 1px solid grey;
+}
+
+.chat-compose-form__text-field {
+	width: 100%;
+}
+
+.chat-compose-form__actions-container {
+	padding: 10px;
+}

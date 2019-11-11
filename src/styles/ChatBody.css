@@ -1,0 +1,6 @@
+.chat-body {
+	display: flex;
+	flex-flow: column;
+	height: calc(100vh - 250px);
+	overflow: scroll;
+}
