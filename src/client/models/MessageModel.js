@@ -1,9 +1,9 @@
 export default class MessageModel {
-	constructor(sender, receiver, text, sentDate = new Date()) {
+	constructor(sender, text, sentDate = new Date(), type = 'userMessage') {
 		this.sender = sender;
-		this.receiver = receiver;
 		this.text = text;
 		this.sentDate = sentDate;
+		this.type = type;
 	}
 
 	getFormattedSentTime() {

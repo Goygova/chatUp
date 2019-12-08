@@ -20,7 +20,7 @@ export default class ChatBody extends React.Component {
 		return (
 			<div className='chat-body'>
 				{this.props.conversation.messages.map((message, index) => (
-					<ChatMessage conversation={this.props.conversation} key={index} message={message}></ChatMessage>
+					<ChatMessage conversation={this.props.conversation} key={index} message={message} userName={this.props.userName}></ChatMessage>
 				))}
 			</div>
 		);

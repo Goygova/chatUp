@@ -1,0 +1,22 @@
+.chat-header {
+	display: flex;
+	height: 40px;
+	border-bottom: 1px solid black;
+	background: #3f51b5;
+	color: #ffffff;
+	line-height: 40px;
+	padding: 0 10px;
+}
+
+.chat-header > div {
+	display: flex;
+	flex: 1;
+}
+
+.chat-header-text {
+	justify-content: center;
+}
+
+.chat-header-user-name {
+	justify-content: flex-end;
+}

@@ -22,3 +22,20 @@
 .App-link {
 	color: #09d3ac;
 }
+
+.login-form-container {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-form-button {
+	margin-left: 10px !important;
+}

@@ -6,9 +6,7 @@ import ConversationModel from '../models/ConversationModel';
 import { shallow } from 'enzyme';
 
 it('should verify that handleKeyDown func is called on Enter press', () => {
-	const user1 = new UserModel(1, 'FirstName', 'LastName');
-	const user2 = new UserModel(2, 'FirstName', 'LastName');
-	const conversation = new ConversationModel(user1, user2);
+	const conversation = new ConversationModel();
 	const handleKeyDownSpy = jest.spyOn(ChatComposeForm.prototype, 'handleKeyDown');
 
 	const wrapper = shallow(<ChatComposeForm conversation={conversation} sendMessage={() => {}}></ChatComposeForm>);
@@ -20,9 +18,7 @@ it('should verify that handleKeyDown func is called on Enter press', () => {
 });
 
 it('should verify that clearInput func is executed when sending a message', () => {
-	const user1 = new UserModel(1, 'FirstName', 'LastName');
-	const user2 = new UserModel(2, 'FirstName', 'LastName');
-	const conversation = new ConversationModel(user1, user2);
+	const conversation = new ConversationModel();
 	const clearInputSpy = jest.spyOn(ChatComposeForm.prototype, 'clearInput');
 
 	const wrapper = shallow(<ChatComposeForm conversation={conversation} sendMessage={() => {}}></ChatComposeForm>);
@@ -36,9 +32,7 @@ it('should verify that clearInput func is executed when sending a message', () =
 });
 
 it('should verify that sendMessage func is not called when input field is empty', () => {
-	const user1 = new UserModel(1, 'FirstName', 'LastName');
-	const user2 = new UserModel(2, 'FirstName', 'LastName');
-	const conversation = new ConversationModel(user1, user2);
+	const conversation = new ConversationModel();
 
 	const mockSendMessage = jest.fn();
 
@@ -52,9 +46,7 @@ it('should verify that sendMessage func is not called when input field is empty'
 });
 
 it('should verify that sendMessage func is called when input field has value', () => {
-	const user1 = new UserModel(1, 'FirstName', 'LastName');
-	const user2 = new UserModel(2, 'FirstName', 'LastName');
-	const conversation = new ConversationModel(user1, user2);
+	const conversation = new ConversationModel();
 
 	const mockSendMessage = jest.fn();
 
