@@ -23,7 +23,11 @@ export default class ChatMessage extends React.Component {
 		} else {
 			return (
 				<div className='chat-message-from-other-user-container'>
-					<div className='chat-message-sender-name'>{this.props.message.sender.userName}</div>
+					{!this.props.isPreviousMessageFromSameUser ? (
+						<div className='chat-message-sender-name'>{this.props.message.sender.userName}</div>
+					) : (
+						''
+					)}
 					<div className='chat-message-from-other-user'>{this.props.message.text}</div>
 					<div className='chat-message-date-from-other-user'>{this.props.message.getFormattedSentTime()}</div>
 				</div>

@@ -16,11 +16,20 @@ export default class ChatBody extends React.Component {
 		chatBody.scrollTop = chatBody.scrollHeight;
 	}
 
+	isPreviousMessageFromSameUser(message, previousMessage) {
+		return previousMessage && previousMessage.sender.userName === message.sender.userName;
+	}
+
 	render() {
 		return (
 			<div className='chat-body'>
 				{this.props.conversation.messages.map((message, index) => (
-					<ChatMessage conversation={this.props.conversation} key={index} message={message} userName={this.props.userName}></ChatMessage>
+					<ChatMessage
+						conversation={this.props.conversation}
+						isPreviousMessageFromSameUser={this.isPreviousMessageFromSameUser(message, this.props.conversation.messages[index - 1])}
+						key={index}
+						message={message}
+						userName={this.props.userName}></ChatMessage>
 				))}
 			</div>
 		);
