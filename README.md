@@ -1,16 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A realtime chat application allows any number of people to chat.
+A Simple node server allows to broadcast messages to clients using websockets.
 
-## Available Scripts
+This project is built with React + Node Js.
+To start the app locally please run the following command:
 
-In the project directory, you can run:
-
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+### `DEMO`
+
+Click to see the video.
+
+[![Alt text](https://i9.ytimg.com/vi/O_dIFZE9EVE/mq3.jpg?sqp=CI3tte8F&rs=AOn4CLCI3y1tqwkj1EUApID3_uDmM_RB3w)](https://youtu.be/O_dIFZE9EVE)
 
 ### `npm test`
 

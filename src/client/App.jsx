@@ -56,13 +56,29 @@ class App extends React.Component {
 		});
 	}
 
+	handleKeyDown(event) {
+		const ENTER_KEY = 13;
+		if (event.keyCode === ENTER_KEY) {
+			if (this.state.userName && this.state.userName.trim()) {
+				this.login();
+			}
+		}
+	}
+
 	render() {
 		const chat = this.props.app.user.userName ? (
 			<Chat conversation={this.props.app.conversation} userName={this.props.app.user.userName} wsConnection={this.connection}></Chat>
 		) : (
 			<div className='login-form-container'>
 				<form className='login-form' autoComplete='off'>
-					<TextField id='outlined-basic' required label='User name' variant='outlined' onChange={event => this.handleInputChange(event)} />
+					<TextField
+						id='outlined-basic'
+						required
+						label='User name'
+						variant='outlined'
+						onChange={event => this.handleInputChange(event)}
+						onKeyDown={event => this.handleKeyDown(event)}
+					/>
 					<Button
 						disabled={!this.state.connectionIsOpen || !this.state.userName || !this.state.userName.trim()}
 						variant='contained'
