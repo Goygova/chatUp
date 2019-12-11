@@ -19,6 +19,13 @@ export default (state = initialState, action) => {
 				user: action.payload
 			};
 			break;
+		case 'DELETE_MESSAGE': {
+			state = {
+				...state,
+				conversation: { messages: [...state.conversation.messages.filter(message => message.id !== action.payload.id)] }
+			};
+			break;
+		}
 		default:
 			return state;
 	}

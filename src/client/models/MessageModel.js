@@ -1,5 +1,6 @@
 export default class MessageModel {
 	constructor(sender, text, sentDate = new Date(), type = 'userMessage') {
+		this.id = null;
 		this.sender = sender;
 		this.text = text;
 		this.sentDate = sentDate;

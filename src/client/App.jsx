@@ -38,6 +38,7 @@ class App extends React.Component {
 			if (json.type === 'chatMessage') {
 				const parsedMsg = JSON.parse(json.message);
 				const messageModel = new MessageModel(parsedMsg.sender, parsedMsg.text, new Date(parsedMsg.sentDate));
+				messageModel.id = parsedMsg.id;
 				this.props.sendMessage(messageModel);
 			}
 		};

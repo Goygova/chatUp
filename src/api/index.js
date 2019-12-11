@@ -1,5 +1,6 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
+var uuidv1 = require('uuid/v1');
 
 var server = http.createServer(function(request, response) {});
 
@@ -40,8 +41,10 @@ wsServer.on('request', function(request) {
 				connections[i].sendUTF(JSON.stringify({ type: 'userJoined', userName: userName }));
 			}
 		} else {
+			var parsedMessage = JSON.parse(message.utf8Data);
+			parsedMessage.id = uuidv1();
 			for (var i = 0; i < connections.length; i++) {
-				connections[i].sendUTF(JSON.stringify({ type: 'chatMessage', message: message.utf8Data }));
+				connections[i].sendUTF(JSON.stringify({ type: 'chatMessage', message: JSON.stringify(parsedMessage) }));
 			}
 		}
 	});

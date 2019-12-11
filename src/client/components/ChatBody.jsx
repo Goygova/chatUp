@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/ChatBody.css';
 import ChatMessage from './ChatMessage';
+import { connect } from 'react-redux';
 
-export default class ChatBody extends React.Component {
+class ChatBody extends React.Component {
 	componentDidUpdate() {
 		this.scrollDown();
 	}
@@ -20,6 +21,10 @@ export default class ChatBody extends React.Component {
 		return previousMessage && previousMessage.sender.userName === message.sender.userName;
 	}
 
+	deleteMessage(message) {
+		this.props.deleteMessage(message);
+	}
+
 	render() {
 		return (
 			<div className='chat-body'>
@@ -29,9 +34,28 @@ export default class ChatBody extends React.Component {
 						isPreviousMessageFromSameUser={this.isPreviousMessageFromSameUser(message, this.props.conversation.messages[index - 1])}
 						key={index}
 						message={message}
-						userName={this.props.userName}></ChatMessage>
+						userName={this.props.userName}
+						deleteMessage={message => this.deleteMessage(message)}></ChatMessage>
 				))}
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		app: state.appReducer
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		deleteMessage: message => {
+			dispatch({
+				type: 'DELETE_MESSAGE',
+				payload: message
+			});
+		}
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ChatBody);
