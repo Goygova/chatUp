@@ -18,7 +18,12 @@ class ChatComposeForm extends React.Component {
 
 		const message = new MessageModel(this.props.app.user, this.state.messageText);
 
-		this.props.wsConnection.send(JSON.stringify(message));
+		const messageEvent = {
+			type: 'chatMessage',
+			data: message
+		};
+
+		this.props.wsConnection.send(JSON.stringify(messageEvent));
 
 		this.clearInput();
 	}

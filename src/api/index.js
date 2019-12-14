@@ -16,6 +16,11 @@ server.listen(webSocketsServerPort, function() {
 	console.log(new Date() + ' Server is listening on port ' + webSocketsServerPort);
 });
 
+function broadcastMessageEventToAll(messageEvent) {
+	for (var i = 0; i < connections.length; i++) {
+		connections[i].sendUTF(JSON.stringify(messageEvent));
+	}
+}
 /**
  * WebSocket server
  */
@@ -32,20 +37,31 @@ wsServer.on('request', function(request) {
 
 	// when user sent message
 	connection.on('message', function(message) {
-		if (!userName) {
-			userName = message.utf8Data;
-
-			userIndex = users.push(userName) - 1;
-
-			for (var i = 0; i < connections.length; i++) {
-				connections[i].sendUTF(JSON.stringify({ type: 'userJoined', userName: userName }));
-			}
-		} else {
-			var parsedMessage = JSON.parse(message.utf8Data);
-			parsedMessage.id = uuidv1();
-			for (var i = 0; i < connections.length; i++) {
-				connections[i].sendUTF(JSON.stringify({ type: 'chatMessage', message: JSON.stringify(parsedMessage) }));
-			}
+		var messageEvent = JSON.parse(message.utf8Data);
+		switch (messageEvent.type) {
+			case 'login':
+				userName = messageEvent.data;
+				userIndex = users.push(userName) - 1;
+				var responseMessageEvent = {
+					type: 'userJoined',
+					data: userName
+				};
+				broadcastMessageEventToAll(responseMessageEvent);
+				break;
+			case 'chatMessage':
+				messageEvent.data.id = uuidv1();
+				var responseMessageEvent = {
+					type: 'chatMessage',
+					data: JSON.stringify(messageEvent.data)
+				};
+				broadcastMessageEventToAll(responseMessageEvent);
+				break;
+			case 'deleteMessage':
+				var responseMessageEvent = {
+					type: 'deleteMessage',
+					data: messageEvent.data
+				};
+				broadcastMessageEventToAll(responseMessageEvent);
 		}
 	});
 
@@ -54,10 +70,11 @@ wsServer.on('request', function(request) {
 		if (userName) {
 			connections.splice(index, 1);
 			users.splice(userIndex, 1);
-
-			for (var i = 0; i < connections.length; i++) {
-				connections[i].sendUTF(JSON.stringify({ type: 'userLeft', userName: userName }));
-			}
+			var responseMessageEvent = {
+				type: 'userLeft',
+				data: userName
+			};
+			broadcastMessageEventToAll(responseMessageEvent);
 		}
 	});
 });

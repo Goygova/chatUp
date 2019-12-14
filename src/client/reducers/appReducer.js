@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
 		case 'DELETE_MESSAGE': {
 			state = {
 				...state,
-				conversation: { messages: [...state.conversation.messages.filter(message => message.id !== action.payload.id)] }
+				conversation: { messages: [...state.conversation.messages.filter(message => message.id !== action.payload)] }
 			};
 			break;
 		}

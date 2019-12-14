@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/ChatBody.css';
 import ChatMessage from './ChatMessage';
-import { connect } from 'react-redux';
 
 class ChatBody extends React.Component {
 	componentDidUpdate() {
@@ -22,7 +21,11 @@ class ChatBody extends React.Component {
 	}
 
 	deleteMessage(message) {
-		this.props.deleteMessage(message);
+		const messageEvent = {
+			type: 'deleteMessage',
+			data: message.id
+		};
+		this.props.wsConnection.send(JSON.stringify(messageEvent));
 	}
 
 	render() {
@@ -42,20 +45,4 @@ class ChatBody extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		app: state.appReducer
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		deleteMessage: message => {
-			dispatch({
-				type: 'DELETE_MESSAGE',
-				payload: message
-			});
-		}
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ChatBody);
+export default ChatBody;

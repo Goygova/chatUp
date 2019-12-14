@@ -24,22 +24,23 @@ class App extends React.Component {
 			this.setState({ connectionIsOpen: true });
 		};
 
-		this.connection.onmessage = message => {
-			var json = JSON.parse(message.data);
-
-			if (json.type === 'userJoined') {
-				this.props.sendMessage(new MessageModel(new UserModel('system'), `${json.userName} joined chat`, new Date(), 'system'));
-			}
-
-			if (json.type === 'userLeft') {
-				this.props.sendMessage(new MessageModel(new UserModel('system'), `${json.userName} left chat`, new Date(), 'system'));
-			}
-
-			if (json.type === 'chatMessage') {
-				const parsedMsg = JSON.parse(json.message);
-				const messageModel = new MessageModel(parsedMsg.sender, parsedMsg.text, new Date(parsedMsg.sentDate));
-				messageModel.id = parsedMsg.id;
-				this.props.sendMessage(messageModel);
+		this.connection.onmessage = messageEvent => {
+			const message = JSON.parse(messageEvent.data);
+			switch (message.type) {
+				case 'userJoined':
+					this.props.sendMessage(new MessageModel(new UserModel('system'), `${message.data} joined chat`, new Date(), 'system'));
+					break;
+				case 'chatMessage':
+					const parsedMsg = JSON.parse(message.data);
+					const messageModel = new MessageModel(parsedMsg.sender, parsedMsg.text, new Date(parsedMsg.sentDate));
+					messageModel.id = parsedMsg.id;
+					this.props.sendMessage(messageModel);
+					break;
+				case 'deleteMessage':
+					this.props.deleteMessage(message.data);
+					break;
+				case 'userLeft':
+					this.props.sendMessage(new MessageModel(new UserModel('system'), `${message.data} left chat`, new Date(), 'system'));
 			}
 		};
 	}
@@ -48,7 +49,11 @@ class App extends React.Component {
 		const user = new UserModel(this.state.userName);
 		this.props.setUser(user);
 
-		this.connection.send(user.userName);
+		const messageEvent = {
+			type: 'login',
+			data: user.userName
+		};
+		this.connection.send(JSON.stringify(messageEvent));
 	}
 
 	handleInputChange(event) {
@@ -121,6 +126,12 @@ const mapDispatchToProps = dispatch => {
 			dispatch({
 				type: 'SEND_MESSAGE',
 				payload: message
+			});
+		},
+		deleteMessage: id => {
+			dispatch({
+				type: 'DELETE_MESSAGE',
+				payload: id
 			});
 		}
 	};
