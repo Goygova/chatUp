@@ -18,13 +18,32 @@ class App extends React.Component {
 			connectionIsOpen: false
 		};
 
-		this.connection = new WebSocket('ws://localhost:3001');
+		this.connection = this.createNewConnection();
+	}
 
-		this.connection.onopen = () => {
+	componentDidUpdate() {
+		if (this.connection.readyState === 2 || this.connection.readyState === 3) {
+			this.connection = this.createNewConnection();
+		}
+	}
+
+	createNewConnection() {
+		const connection = new WebSocket('ws://localhost:3001');
+
+		connection.onopen = () => {
 			this.setState({ connectionIsOpen: true });
+			const userNameFromStorage = localStorage.getItem('userName');
+			if (userNameFromStorage) {
+				this.login(userNameFromStorage);
+			}
 		};
 
-		this.connection.onmessage = messageEvent => {
+		connection.onclose = () => {
+			localStorage.removeItem('userName');
+			this.props.resetAppState();
+		};
+
+		connection.onmessage = messageEvent => {
 			const message = JSON.parse(messageEvent.data);
 			switch (message.type) {
 				case 'userJoined':
@@ -43,10 +62,12 @@ class App extends React.Component {
 					this.props.sendMessage(new MessageModel(new UserModel('system'), `${message.data} left chat`, new Date(), 'system'));
 			}
 		};
+		return connection;
 	}
 
-	login() {
-		const user = new UserModel(this.state.userName);
+	login(userName) {
+		localStorage.setItem('userName', userName);
+		const user = new UserModel(userName);
 		this.props.setUser(user);
 
 		const messageEvent = {
@@ -66,7 +87,7 @@ class App extends React.Component {
 		const ENTER_KEY = 13;
 		if (event.keyCode === ENTER_KEY) {
 			if (this.state.userName && this.state.userName.trim()) {
-				this.login();
+				this.login(this.state.userName);
 			}
 		}
 	}
@@ -90,7 +111,7 @@ class App extends React.Component {
 						variant='contained'
 						color='primary'
 						className='login-form-button'
-						onClick={() => this.login()}>
+						onClick={() => this.login(this.state.userName)}>
 						Join Chat
 					</Button>
 				</form>
@@ -132,6 +153,11 @@ const mapDispatchToProps = dispatch => {
 			dispatch({
 				type: 'DELETE_MESSAGE',
 				payload: id
+			});
+		},
+		resetAppState: () => {
+			dispatch({
+				type: 'RESET_APP_STATE'
 			});
 		}
 	};

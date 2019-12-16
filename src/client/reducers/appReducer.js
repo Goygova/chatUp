@@ -19,13 +19,14 @@ export default (state = initialState, action) => {
 				user: action.payload
 			};
 			break;
-		case 'DELETE_MESSAGE': {
+		case 'DELETE_MESSAGE':
 			state = {
 				...state,
 				conversation: { messages: [...state.conversation.messages.filter(message => message.id !== action.payload)] }
 			};
 			break;
-		}
+		case 'RESET_APP_STATE':
+			return initialState;
 		default:
 			return state;
 	}

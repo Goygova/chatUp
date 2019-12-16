@@ -7,7 +7,7 @@ export default class Chat extends React.Component {
 	render() {
 		return (
 			<div>
-				<ChatHeader userName={this.props.userName}></ChatHeader>
+				<ChatHeader userName={this.props.userName} wsConnection={this.props.wsConnection}></ChatHeader>
 
 				<ChatBody conversation={this.props.conversation} userName={this.props.userName} wsConnection={this.props.wsConnection}></ChatBody>
 
