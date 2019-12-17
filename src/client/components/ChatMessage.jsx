@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Avatar from '@material-ui/core/Avatar';
 
 export default class ChatMessage extends React.Component {
 	constructor() {
@@ -43,7 +44,7 @@ export default class ChatMessage extends React.Component {
 	render() {
 		const dropDownMenu = (
 			<React.Fragment>
-				<IconButton aria-label='more' aria-controls='menu' aria-haspopup='true' onClick={event => this.handleClick(event)}>
+				<IconButton size='small' aria-label='more' aria-controls='menu' aria-haspopup='true' onClick={event => this.handleClick(event)}>
 					<MoreVertIcon />
 				</IconButton>
 				<Menu
@@ -66,12 +67,14 @@ export default class ChatMessage extends React.Component {
 		} else if (this.isMessageFromCurrentUser()) {
 			return (
 				<div className='chat-message-sender-container'>
-					<div className='display-flex'>
-						<div className='display-flex'>{dropDownMenu}</div>
-
-						<div className='chat-message-sender-text'>{this.props.message.text}</div>
+					<div className='mr5'>
+						<div className='display-flex'>
+							<div className='display-flex'>{dropDownMenu}</div>
+							<div className='chat-message-sender-text'>{this.props.message.text}</div>
+						</div>
+						<div className='chat-message-date-sender'>{this.props.message.getFormattedSentTime()}</div>
 					</div>
-					<div className='chat-message-date-sender'>{this.props.message.getFormattedSentTime()}</div>
+					<Avatar>{this.props.userName.substring(0, 1)}</Avatar>
 				</div>
 			);
 		} else {
@@ -83,12 +86,17 @@ export default class ChatMessage extends React.Component {
 						''
 					)}
 					<div className='display-flex'>
-						<div className='display-flex'>
-							<div className='chat-message-from-other-user'>{this.props.message.text}</div>
-							{dropDownMenu}
+						<Avatar>{this.props.message.sender.userName.substring(0, 1)}</Avatar>
+						<div className='ml5'>
+							<div className='display-flex'>
+								<div className='display-flex'>
+									<div className='chat-message-from-other-user'>{this.props.message.text}</div>
+									{dropDownMenu}
+								</div>
+							</div>
+							<div className='chat-message-date-from-other-user'>{this.props.message.getFormattedSentTime()}</div>
 						</div>
 					</div>
-					<div className='chat-message-date-from-other-user'>{this.props.message.getFormattedSentTime()}</div>
 				</div>
 			);
 		}

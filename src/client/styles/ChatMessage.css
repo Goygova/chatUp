@@ -16,7 +16,6 @@
 
 .chat-message-sender-container {
 	display: flex;
-	flex-direction: column;
 	padding-left: 100px;
 	padding-right: 10px;
 	padding-top: 10px;
@@ -32,15 +31,14 @@
 }
 
 .chat-message-date-sender {
-	margin-left: auto;
 	font-size: small;
-	padding-right: 10px;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .chat-message-date-from-other-user {
-	margin-right: auto;
+	display: flex;
 	font-size: small;
-	padding-left: 10px;
 }
 
 .chat-message-sender-name {
