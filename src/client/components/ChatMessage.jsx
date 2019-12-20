@@ -62,6 +62,7 @@ export default class ChatMessage extends React.Component {
 				</Menu>
 			</React.Fragment>
 		);
+		const attachment = this.props.message.attachmentUrl ? <img src={this.props.message.attachmentUrl} width={'100px'} /> : '';
 		if (this.isSystemMessage()) {
 			return <div className='chat-message-system'>{this.props.message.text}</div>;
 		} else if (this.isMessageFromCurrentUser()) {
@@ -71,6 +72,7 @@ export default class ChatMessage extends React.Component {
 						<div className='display-flex'>
 							<div className='display-flex'>{dropDownMenu}</div>
 							<div className='chat-message-sender-text'>{this.props.message.text}</div>
+							<div>{attachment}</div>
 						</div>
 						<div className='chat-message-date-sender'>{this.props.message.getFormattedSentTime()}</div>
 					</div>

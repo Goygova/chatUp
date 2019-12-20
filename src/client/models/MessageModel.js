@@ -1,10 +1,11 @@
 export default class MessageModel {
-	constructor(sender, text, sentDate = new Date(), type = 'userMessage') {
+	constructor(sender, text, sentDate = new Date(), type = 'userMessage', attachmentUrl) {
 		this.id = null;
 		this.sender = sender;
 		this.text = text;
 		this.sentDate = sentDate;
 		this.type = type;
+		this.attachmentUrl = attachmentUrl;
 	}
 
 	getFormattedSentTime() {

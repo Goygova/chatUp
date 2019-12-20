@@ -28,7 +28,7 @@ class App extends React.Component {
 	}
 
 	createNewConnection() {
-		const connection = new WebSocket('ws://localhost:3001');
+		const connection = new WebSocket('ws://localhost:3001/ws');
 
 		connection.onopen = () => {
 			this.setState({ connectionIsOpen: true });
@@ -49,9 +49,15 @@ class App extends React.Component {
 				case 'userJoined':
 					this.props.sendMessage(new MessageModel(new UserModel('system'), `${message.data} joined chat`, new Date(), 'system'));
 					break;
-				case 'chatMessage':
+				case 'userMessage':
 					const parsedMsg = JSON.parse(message.data);
-					const messageModel = new MessageModel(parsedMsg.sender, parsedMsg.text, new Date(parsedMsg.sentDate));
+					const messageModel = new MessageModel(
+						parsedMsg.sender,
+						parsedMsg.text,
+						new Date(parsedMsg.sentDate),
+						parsedMsg.type,
+						parsedMsg.attachmentUrl
+					);
 					messageModel.id = parsedMsg.id;
 					this.props.sendMessage(messageModel);
 					break;
@@ -119,7 +125,7 @@ class App extends React.Component {
 		);
 		return (
 			<div className='App'>
-				<Grid container spacing={6} justify='center'>
+				<Grid container justify='center'>
 					<Grid item xs={8}>
 						<Paper> {chat} </Paper>
 					</Grid>
