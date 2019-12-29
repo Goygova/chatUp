@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MessageModel from '../models/MessageModel';
-import Input from '@material-ui/core/Input';
+import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 class ChatComposeForm extends React.Component {
 	constructor(props) {
@@ -14,6 +16,10 @@ class ChatComposeForm extends React.Component {
 			selectedFile: null,
 			path: ''
 		};
+		/**
+		 * reference to a file input to be able to reset the value after sending a msg
+		 */
+		this.attachFileInputRef = React.createRef();
 	}
 
 	async onSendMessageClick() {
@@ -32,6 +38,7 @@ class ChatComposeForm extends React.Component {
 			body: form
 		});
 		this.clearInput();
+		this.removeDraftImage();
 	}
 
 	/**
@@ -57,7 +64,9 @@ class ChatComposeForm extends React.Component {
 	}
 
 	clearInput() {
-		this.setState({ messageText: '' });
+		this.setState({
+			messageText: ''
+		});
 	}
 
 	canSendMessage() {
@@ -74,11 +83,32 @@ class ChatComposeForm extends React.Component {
 		}
 	}
 
+	removeDraftImage() {
+		this.setState({
+			path: '',
+			selectedFile: null
+		});
+		this.attachFileInputRef.current.value = '';
+	}
 	render() {
+		const draftImage = this.state.path ? (
+			<div className='chat-compose-form__draft-image-container'>
+				<div className='chat-compose-form__image-with-remove-btn-container'>
+					<img className='chat-compose-form__draft-image' src={this.state.path} alt='draftImage' />
+					<div className='chat-compose-form__remove-draft-image'>
+						<IconButton aria-label='delete' size='small' onClick={() => this.removeDraftImage()}>
+							<ClearIcon />
+						</IconButton>
+					</div>
+				</div>
+			</div>
+		) : (
+			''
+		);
 		return (
 			<React.Fragment>
-				<img src={this.state.path} width={'50px'} />
 				<form className='chat-compose-form'>
+					{draftImage}
 					<TextField
 						multiline
 						rows='4'
@@ -98,10 +128,25 @@ class ChatComposeForm extends React.Component {
 							onClick={() => this.onSendMessageClick()}>
 							Send
 						</Button>
+						{/**
+						 * Material Design button that delegates a click event to the hidden input file element
+						 */}
+						<IconButton onClick={() => this.attachFileInputRef.current.click()}>
+							<AttachFileIcon />
+						</IconButton>
 					</div>
-					<div>
-						<Input type='file' name='myImage' onChange={event => this.fileChangedHandler(event)} />
-					</div>
+					{/**
+					 * standard HTML input is not alligned with Material Design
+					 * so hiding this input, we still need this input since we handle atachment selection
+					 * via it
+					 */}
+					<input
+						className='display-none'
+						type='file'
+						name='myImage'
+						ref={this.attachFileInputRef}
+						onChange={event => this.fileChangedHandler(event)}
+					/>
 				</form>
 			</React.Fragment>
 		);

@@ -50,3 +50,8 @@
 .chat-message-system {
 	font-size: 12px;
 }
+
+.chat-message-attachment {
+	border-radius: 10px;
+	width: 150px;
+}

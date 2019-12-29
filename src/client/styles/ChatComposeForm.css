@@ -1,5 +1,26 @@
-.chat-compose-form {
-	border: 1px solid grey;
+.chat-compose-form__draft-image-container {
+	padding-bottom: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+.chat-compose-form__draft-image {
+	height: 100px;
+	opacity: 0.6;
+	border-radius: 10px;
+}
+.chat-compose-form__remove-draft-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: none;
+}
+
+.chat-compose-form__image-with-remove-btn-container {
+	position: relative;
+}
+.chat-compose-form__image-with-remove-btn-container:hover > .chat-compose-form__remove-draft-image {
+	display: block;
 }
 
 .chat-compose-form__text-field {
