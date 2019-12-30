@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/ChatMessage.css';
 import '../styles/SharedStyles.css';
 import Avatar from '@material-ui/core/Avatar';
+import ChatMessageDropdownMenu from './ChatMessageDropdownMenu';
 
 class ChatMessageIncoming extends React.Component {
 	render() {
@@ -21,7 +22,9 @@ class ChatMessageIncoming extends React.Component {
 								{messageText}
 								<div className='display-flex'>{this.props.attachment}</div>
 							</div>
-							<div className='display-flex'>{this.props.dropDownMenu}</div>
+							<div className='display-flex'>
+								<ChatMessageDropdownMenu deleteMessage={this.props.deleteMessage} message={this.props.message} />
+							</div>
 						</div>
 						<div className='chat-message-date-from-other-user'>{this.props.message.getFormattedSentTime()}</div>
 					</div>
