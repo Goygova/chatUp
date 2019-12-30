@@ -34,7 +34,6 @@ export default class ChatMessage extends React.Component {
 			return (
 				<ChatMessageIncoming
 					deleteMessage={this.props.deleteMessage}
-					deleteMessage={this.props.deleteMessage}
 					message={this.props.message}
 					attachment={attachment}
 					isPreviousMessageFromSameUser={this.props.isPreviousMessageFromSameUser}
