@@ -5,15 +5,16 @@ import Avatar from '@material-ui/core/Avatar';
 
 class ChatMessageOutgoing extends React.Component {
 	render() {
+		const messageText = this.props.message.text ? <div className='chat-message-sender-text mb5'>{this.props.message.text}</div> : '';
 		return (
 			<div className='chat-message-sender-container'>
 				<div className='mr5'>
-					<div className='display-flex flex-direction-column'>
-						<div className='display-flex mb5'>
-							<div className='display-flex'>{this.props.dropDownMenu}</div>
-							<div className='chat-message-sender-text'>{this.props.message.text}</div>
+					<div className='display-flex'>
+						<div className='display-flex'>{this.props.dropDownMenu}</div>
+						<div className='display-flex flex-direction-column'>
+							{messageText}
+							<div className='display-flex justify-content-flex-end'>{this.props.attachment}</div>
 						</div>
-						<div className='display-flex justify-content-flex-end'>{this.props.attachment}</div>
 					</div>
 					<div className='chat-message-date-sender'>{this.props.message.getFormattedSentTime()}</div>
 				</div>

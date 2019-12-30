@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 class ChatMessageIncoming extends React.Component {
 	render() {
+		const messageText = this.props.message.text ? <div className='chat-message-from-other-user mb5'>{this.props.message.text}</div> : '';
 		return (
 			<div className='chat-message-from-other-user-container'>
 				{!this.props.isPreviousMessageFromSameUser ? (
@@ -15,12 +16,12 @@ class ChatMessageIncoming extends React.Component {
 				<div className='display-flex'>
 					<Avatar>{this.props.message.sender.userName.substring(0, 1)}</Avatar>
 					<div className='ml5'>
-						<div className='display-flex flex-direction-column'>
-							<div className='display-flex mb5'>
-								<div className='chat-message-from-other-user'>{this.props.message.text}</div>
-								<div className='display-flex'>{this.props.dropDownMenu}</div>
+						<div className='display-flex'>
+							<div className='display-flex flex-direction-column'>
+								{messageText}
+								<div className='display-flex'>{this.props.attachment}</div>
 							</div>
-							<div className='display-flex'>{this.props.attachment}</div>
+							<div className='display-flex'>{this.props.dropDownMenu}</div>
 						</div>
 						<div className='chat-message-date-from-other-user'>{this.props.message.getFormattedSentTime()}</div>
 					</div>
